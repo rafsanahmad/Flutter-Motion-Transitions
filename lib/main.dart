@@ -1,3 +1,10 @@
+/*
+ * *
+ *  * Created by Rafsan Ahmad on 11/1/21, 4:47 PM
+ *  * Copyright (c) 2021 . All rights reserved.
+ *
+ */
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,7 +14,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  // This widget is the root of your application.`
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
