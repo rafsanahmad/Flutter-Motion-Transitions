@@ -7,7 +7,10 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_motion_transitions/pages/home_page.dart';
+import 'package:flutter_motion_transitions/pages/search_page.dart';
 import 'package:flutter_motion_transitions/router/router_provider.dart';
+import 'package:flutter_motion_transitions/utils/custom_transition_page.dart';
 import 'package:provider/provider.dart';
 
 const String _homePageLocation = '/reply/home';
@@ -39,7 +42,17 @@ class ReplyRouterDelegate extends RouterDelegate<ReplyRoutePath>
             return Navigator(
               key: navigatorKey,
               onPopPage: _handlePopPage,
-              pages: [],
+              pages: [
+                const CustomTransitionPage(
+                  transitionKey: ValueKey('Home'),
+                  screen: HomePage(),
+                ),
+                if (routePath is ReplySearchPath)
+                  const CustomTransitionPage(
+                    transitionKey: ValueKey('Search'),
+                    screen: SearchPage(),
+                  ),
+              ],
             );
           }),
     );
