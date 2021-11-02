@@ -6,13 +6,15 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_motion_transitions/router/router.dart';
+import 'package:flutter_motion_transitions/router/router_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-import 'utils/colors.dart';
 import 'model/email_store.dart';
+import 'utils/colors.dart';
 
 class EmailApp extends StatefulWidget {
-
   const EmailApp({Key? key}) : super(key: key);
 
   @override
@@ -20,14 +22,44 @@ class EmailApp extends StatefulWidget {
 }
 
 class _EmailAppState extends State<EmailApp> {
+  final RouterProvider _replyState = RouterProvider(const ReplyHomePath());
+
+  final ReplyRouteInformationParser _routeInformationParser =
+      ReplyRouteInformationParser();
+
+  late final ReplyRouterDelegate _routerDelegate;
+
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+  void initState() {
+    super.initState();
+    _routerDelegate = ReplyRouterDelegate(replyState: _replyState);
   }
 
-}
+  @override
+  void dispose() {
+    _routerDelegate.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<EmailStore>.value(value: EmailStore()),
+        ],
+        child: Selector<EmailStore, ThemeMode>(
+            selector: (context, emailStore) => emailStore.themeMode,
+            builder: (context, thememode, child) {
+              return MaterialApp.router(
+                  routeInformationParser: _routeInformationParser,
+                  routerDelegate: _routerDelegate,
+                  themeMode: thememode,
+                  title: 'Reply',
+                  darkTheme: _buildReplyDarkTheme(context),
+                  theme: _buildReplyLightTheme(context));
+            }));
+  }
+}
 
 ThemeData _buildReplyLightTheme(BuildContext context) {
   final base = ThemeData.light();
@@ -96,10 +128,10 @@ ThemeData _buildReplyDarkTheme(BuildContext context) {
 }
 
 ChipThemeData _buildChipTheme(
-    Color primaryColor,
-    Color chipBackground,
-    Brightness brightness,
-    ) {
+  Color primaryColor,
+  Color chipBackground,
+  Brightness brightness,
+) {
   return ChipThemeData(
     backgroundColor: primaryColor.withOpacity(0.12),
     disabledColor: primaryColor.withOpacity(0.87),
@@ -108,10 +140,10 @@ ChipThemeData _buildChipTheme(
     padding: const EdgeInsets.all(4),
     shape: const StadiumBorder(),
     labelStyle: GoogleFonts.workSansTextTheme().bodyText2!.copyWith(
-      color: brightness == Brightness.dark
-          ? ReplyColors.white50
-          : ReplyColors.black900,
-    ),
+          color: brightness == Brightness.dark
+              ? ReplyColors.white50
+              : ReplyColors.black900,
+        ),
     secondaryLabelStyle: GoogleFonts.workSansTextTheme().bodyText2!,
     brightness: brightness,
   );

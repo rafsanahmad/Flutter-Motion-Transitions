@@ -1,0 +1,111 @@
+/*
+ * *
+ *  * Created by Rafsan Ahmad on 11/2/21, 1:13 PM
+ *  * Copyright (c) 2021 . All rights reserved.
+ *
+ */
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_motion_transitions/router/router_provider.dart';
+import 'package:provider/provider.dart';
+
+const String _homePageLocation = '/reply/home';
+const String _searchPageLocation = 'reply/search';
+
+class ReplyRouterDelegate extends RouterDelegate<ReplyRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<ReplyRoutePath> {
+  @override
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  RouterProvider replyState;
+
+  ReplyRouterDelegate({required this.replyState})
+      : navigatorKey = GlobalObjectKey<NavigatorState>(replyState) {
+    replyState.addListener(() {
+      notifyListeners();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<RouterProvider>.value(value: replyState),
+      ],
+      child: Selector<RouterProvider, ReplyRoutePath?>(
+          selector: (context, routerProvider) => routerProvider.routePath,
+          builder: (context, routePath, child) {
+            return Navigator(
+              key: navigatorKey,
+              onPopPage: _handlePopPage,
+              pages: [],
+            );
+          }),
+    );
+  }
+
+  bool _handlePopPage(Route<dynamic> route, dynamic result) {
+    // _handlePopPage should not be called on the home page because the
+    // PopNavigatorRouterDelegateMixin will bubble up the pop to the
+    // SystemNavigator if there is only one route in the navigator.
+    assert(route.willHandlePopInternally ||
+        replyState.routePath is ReplySearchPath);
+
+    final bool didPop = route.didPop(result);
+    if (didPop) replyState.routePath = const ReplyHomePath();
+    return didPop;
+  }
+
+  @override
+  Future<void> setNewRoutePath(ReplyRoutePath configuration) {
+    replyState.routePath = configuration;
+    return SynchronousFuture<void>(null);
+  }
+
+  @override
+  void dispose() {
+    replyState.removeListener(notifyListeners);
+    super.dispose();
+  }
+
+  @override
+  ReplyRoutePath get currentConfiguration => replyState.routePath;
+}
+
+@immutable
+abstract class ReplyRoutePath {
+  const ReplyRoutePath();
+}
+
+class ReplyHomePath extends ReplyRoutePath {
+  const ReplyHomePath();
+}
+
+class ReplySearchPath extends ReplyRoutePath {
+  const ReplySearchPath();
+}
+
+class ReplyRouteInformationParser
+    extends RouteInformationParser<ReplyRoutePath> {
+  @override
+  Future<ReplyRoutePath> parseRouteInformation(
+      RouteInformation routeInformation) async {
+    final url = Uri.parse(routeInformation.location!);
+    if (url.path == _searchPageLocation) {
+      return SynchronousFuture<ReplySearchPath>(const ReplySearchPath());
+    }
+    return SynchronousFuture<ReplyHomePath>(const ReplyHomePath());
+  }
+
+  @override
+  RouteInformation? restoreRouteInformation(ReplyRoutePath configuration) {
+    if (configuration is ReplyHomePath) {
+      return const RouteInformation(location: _homePageLocation);
+    }
+    if (configuration is ReplySearchPath) {
+      return const RouteInformation(location: _searchPageLocation);
+    }
+    return null;
+  }
+}
