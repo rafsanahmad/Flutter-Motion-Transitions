@@ -5,6 +5,7 @@
  *
  */
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// A rectangle with a smooth circular notch.

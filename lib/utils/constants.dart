@@ -7,9 +7,9 @@
 
 import 'package:flutter/material.dart';
 
-const _assetsPackage = 'flutter_gallery_assets';
-const _iconAssetLocation = 'reply/icons';
-const _folderIconAssetLocation = '$_iconAssetLocation/twotone_folder.png';
+const assetsPackage = 'flutter_gallery_assets';
+const iconAssetLocation = 'reply/icons';
+const folderIconAssetLocation = '$iconAssetLocation/twotone_folder.png';
 final mobileMailNavKey = GlobalKey<NavigatorState>();
 const double _kFlingVelocity = 2.0;
-const _kAnimationDuration = Duration(milliseconds: 300);
+const kAnimationDuration = Duration(milliseconds: 300);
