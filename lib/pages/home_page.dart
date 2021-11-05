@@ -4,13 +4,15 @@
  *  * Copyright (c) 2021 . All rights reserved.
  *  
  */
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_motion_transitions/model/email_store.dart';
 import 'package:flutter_motion_transitions/model/navigate_destination.dart';
 import 'package:flutter_motion_transitions/router/mail_router.dart';
 import 'package:flutter_motion_transitions/ui/animated_bottom_app_bar.dart';
-import 'package:flutter_motion_transitions/ui/bottom_drawer.dart';
+import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer.dart';
 import 'package:flutter_motion_transitions/ui/reply_fab.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -268,5 +270,56 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
 
     setState(() {});
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    _drawerController.value -= details.primaryDelta! / _bottomDrawerHeight;
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (_drawerController.isAnimating ||
+        _drawerController.status == AnimationStatus.completed) {
+      return;
+    }
+
+    final flingVelocity =
+        details.velocity.pixelsPerSecond.dy / _bottomDrawerHeight;
+
+    if (flingVelocity < 0.0) {
+      _drawerController.fling(
+        velocity: math.max(kFlingVelocity, -flingVelocity),
+      );
+    } else if (flingVelocity > 0.0) {
+      _dropArrowController.forward();
+      _drawerController.fling(
+        velocity: math.min(-kFlingVelocity, -flingVelocity),
+      );
+    } else {
+      if (_drawerController.value < 0.6) {
+        _dropArrowController.forward();
+      }
+      _drawerController.fling(
+        velocity:
+            _drawerController.value < 0.6 ? -kFlingVelocity : kFlingVelocity,
+      );
+    }
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification.depth == 0) {
+      if (notification is UserScrollNotification) {
+        switch (notification.direction) {
+          case ScrollDirection.forward:
+            _bottomAppBarController.forward();
+            break;
+          case ScrollDirection.reverse:
+            _bottomAppBarController.reverse();
+            break;
+          case ScrollDirection.idle:
+            break;
+        }
+      }
+    }
+    return false;
   }
 }
