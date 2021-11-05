@@ -13,6 +13,8 @@ import 'package:flutter_motion_transitions/model/navigate_destination.dart';
 import 'package:flutter_motion_transitions/router/mail_router.dart';
 import 'package:flutter_motion_transitions/ui/animated_bottom_app_bar.dart';
 import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer.dart';
+import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer_destination.dart';
+import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer_folder_selection.dart';
 import 'package:flutter_motion_transitions/ui/reply_fab.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -239,13 +241,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: BottomDrawer(
               onVerticalDragUpdate: _handleDragUpdate,
               onVerticalDragEnd: _handleDragEnd,
-              leading: _BottomDrawerDestinations(
+              leading: BottomDrawerDestinations(
                 destinations: _navigationDestinations,
                 drawerController: _drawerController,
                 dropArrowController: _dropArrowController,
                 onItemTapped: updateMailbox,
               ),
-              trailing: _BottomDrawerFolderSection(folders: _folders),
+              trailing: BottomDrawerFolderSection(folders: _folders),
             ),
           ),
         ),
