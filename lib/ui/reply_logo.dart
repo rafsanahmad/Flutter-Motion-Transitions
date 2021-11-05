@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_motion_transitions/utils/colors.dart';
+import 'package:flutter_motion_transitions/utils/constants.dart';
 
 class ReplyLogo extends StatelessWidget {
   const ReplyLogo({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class ReplyLogo extends StatelessWidget {
     return const ImageIcon(
       AssetImage(
         'reply/reply_logo.png',
-        package: _assetsPackage,
+        package: assetsPackage,
       ),
       size: 32,
       color: ReplyColors.white50,

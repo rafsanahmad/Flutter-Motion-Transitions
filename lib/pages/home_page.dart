@@ -8,6 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_motion_transitions/model/email_store.dart';
 import 'package:flutter_motion_transitions/model/navigate_destination.dart';
+import 'package:flutter_motion_transitions/ui/animated_bottom_app_bar.dart';
+import 'package:flutter_motion_transitions/ui/reply_fab.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -133,9 +135,57 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  bool get _bottomDrawerVisible {
+    final status = _drawerController.status;
+    return status == AnimationStatus.completed ||
+        status == AnimationStatus.forward;
+  }
+
+  void _toggleBottomDrawerVisibility() {
+    if (_drawerController.value < 0.4) {
+      Provider.of<EmailStore>(
+        context,
+        listen: false,
+      ).bottomDrawerVisible = true;
+      _drawerController.animateTo(0.4, curve: standardEasing);
+      _dropArrowController.animateTo(0.35, curve: standardEasing);
+      return;
+    }
+
+    _dropArrowController.forward();
+    _drawerController.fling(
+      velocity: _bottomDrawerVisible ? -kFlingVelocity : kFlingVelocity,
+    );
+  }
+
+  double get _bottomDrawerHeight {
+    final renderBox =
+        _bottomDrawerKey.currentContext!.findRenderObject() as RenderBox;
+    return renderBox.size.height;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      extendBody: true,
+      body: LayoutBuilder(
+        builder: null,
+      ),
+      bottomNavigationBar: AnimatedBottomAppBar(
+        bottomAppBarController: _bottomAppBarController,
+        bottomAppBarCurve: _bottomAppBarCurve,
+        bottomDrawerVisible: _bottomDrawerVisible,
+        drawerController: _drawerController,
+        dropArrowCurve: _dropArrowCurve,
+        toggleBottomDrawerVisibility: _toggleBottomDrawerVisibility,
+      ),
+      floatingActionButton: _bottomDrawerVisible
+          ? null
+          : const Padding(
+              padding: EdgeInsetsDirectional.only(bottom: 8),
+              child: ReplyFab(),
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 }
