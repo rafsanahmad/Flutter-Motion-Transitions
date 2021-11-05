@@ -8,7 +8,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_motion_transitions/model/email_store.dart';
 import 'package:flutter_motion_transitions/model/navigate_destination.dart';
+import 'package:flutter_motion_transitions/router/mail_router.dart';
 import 'package:flutter_motion_transitions/ui/animated_bottom_app_bar.dart';
+import 'package:flutter_motion_transitions/ui/bottom_drawer.dart';
 import 'package:flutter_motion_transitions/ui/reply_fab.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -169,7 +171,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       extendBody: true,
       body: LayoutBuilder(
-        builder: null,
+        builder: _buildStack,
       ),
       bottomNavigationBar: AnimatedBottomAppBar(
         bottomAppBarController: _bottomAppBarController,
@@ -187,5 +189,84 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  Widget _buildStack(BuildContext context, BoxConstraints constraints) {
+    final drawerSize = constraints.biggest;
+    final drawerTop = drawerSize.height;
+    final ValueChanged<String> updateMailbox = _onDestinationSelected;
+
+    final drawerAnimation = RelativeRectTween(
+      begin: RelativeRect.fromLTRB(0.0, drawerTop, 0.0, 0.0),
+      end: const RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
+    ).animate(_drawerCurve);
+
+    return Stack(
+      clipBehavior: Clip.none,
+      key: _bottomDrawerKey,
+      children: [
+        NotificationListener<ScrollNotification>(
+          onNotification: _handleScrollNotification,
+          child: MailRouter(
+            drawerController: _drawerController,
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            _drawerController.reverse();
+            _dropArrowController.reverse();
+          },
+          child: Visibility(
+            maintainAnimation: true,
+            maintainState: true,
+            visible: _bottomDrawerVisible,
+            child: FadeTransition(
+              opacity: _drawerCurve,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Theme.of(context).bottomSheetTheme.modalBackgroundColor,
+              ),
+            ),
+          ),
+        ),
+        PositionedTransition(
+          rect: drawerAnimation,
+          child: Visibility(
+            visible: _bottomDrawerVisible,
+            child: BottomDrawer(
+              onVerticalDragUpdate: _handleDragUpdate,
+              onVerticalDragEnd: _handleDragEnd,
+              leading: _BottomDrawerDestinations(
+                destinations: _navigationDestinations,
+                drawerController: _drawerController,
+                dropArrowController: _dropArrowController,
+                onItemTapped: updateMailbox,
+              ),
+              trailing: _BottomDrawerFolderSection(folders: _folders),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /*Drawer Functions*/
+
+  void _onDestinationSelected(String destination) {
+    var emailStore = Provider.of<EmailStore>(
+      context,
+      listen: false,
+    );
+
+    if (emailStore.onMailView) {
+      emailStore.currentlySelectedEmailId = -1;
+    }
+
+    if (emailStore.currentlySelectedInbox != destination) {
+      emailStore.currentlySelectedInbox = destination;
+    }
+
+    setState(() {});
   }
 }
