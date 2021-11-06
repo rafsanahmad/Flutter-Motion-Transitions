@@ -9,7 +9,7 @@
     package="com.rafsan.motiontransition.flutter_motion_transitions">
 
     <application
-        android:label="flutter_motion_transitions"
+        android:label="Flutter motion transitions"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
