@@ -10,11 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_motion_transitions/pages/home_page.dart';
 import 'package:flutter_motion_transitions/pages/search_page.dart';
 import 'package:flutter_motion_transitions/router/router_provider.dart';
+import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:flutter_motion_transitions/utils/custom_transition_page.dart';
 import 'package:provider/provider.dart';
-
-const String _homePageLocation = '/reply/home';
-const String _searchPageLocation = 'reply/search';
 
 class ReplyRouterDelegate extends RouterDelegate<ReplyRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<ReplyRoutePath> {
@@ -105,7 +103,7 @@ class ReplyRouteInformationParser
   Future<ReplyRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
     final url = Uri.parse(routeInformation.location!);
-    if (url.path == _searchPageLocation) {
+    if (url.path == searchPageLocation) {
       return SynchronousFuture<ReplySearchPath>(const ReplySearchPath());
     }
     return SynchronousFuture<ReplyHomePath>(const ReplyHomePath());
@@ -114,10 +112,10 @@ class ReplyRouteInformationParser
   @override
   RouteInformation? restoreRouteInformation(ReplyRoutePath configuration) {
     if (configuration is ReplyHomePath) {
-      return const RouteInformation(location: _homePageLocation);
+      return const RouteInformation(location: homePageLocation);
     }
     if (configuration is ReplySearchPath) {
-      return const RouteInformation(location: _searchPageLocation);
+      return const RouteInformation(location: searchPageLocation);
     }
     return null;
   }

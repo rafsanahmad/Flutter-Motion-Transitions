@@ -13,3 +13,5 @@ const folderIconAssetLocation = '$iconAssetLocation/twotone_folder.png';
 final mobileMailNavKey = GlobalKey<NavigatorState>();
 const double kFlingVelocity = 2.0;
 const kAnimationDuration = Duration(milliseconds: 300);
+const String homePageLocation = '/reply/home';
+const String searchPageLocation = 'reply/search';
