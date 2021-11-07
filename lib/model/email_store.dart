@@ -37,7 +37,7 @@ class EmailStore with ChangeNotifier {
       containsPictures: false,
     ),
     const Email(
-      sender: 'Ali Connors',
+      sender: 'Rafsan Ahmad',
       time: '4 hrs ago',
       subject: 'Brunch this weekend?',
       message:
@@ -50,18 +50,18 @@ class EmailStore with ChangeNotifier {
       containsPictures: false,
     ),
     const Email(
-      sender: 'Allison Trabucco',
+      sender: 'James gordon',
       time: '5 hrs ago',
-      subject: 'Bonjour from Paris',
+      subject: 'Bonjour from Dhaka',
       message: 'Here are some great shots from my trip...',
       avatar: '$_avatarsLocation/avatar_3.jpg',
       recipients: 'Jeff',
       containsPictures: true,
     ),
     const Email(
-      sender: 'Trevor Hansen',
+      sender: 'Jamshed ahmed',
       time: '9 hrs ago',
-      subject: 'Brazil trip',
+      subject: 'India trip',
       message:
           'Thought we might be able to go over some details about our upcoming vacation.\n\n'
           'I\'ve been doing a bit of research and have come across a few paces in Northern Brazil that I think we should check out. '
