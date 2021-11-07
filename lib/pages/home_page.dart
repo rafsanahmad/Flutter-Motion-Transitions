@@ -16,6 +16,8 @@ import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer.dart';
 import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer_destination.dart';
 import 'package:flutter_motion_transitions/ui/bottom_drawer/bottom_drawer_folder_selection.dart';
 import 'package:flutter_motion_transitions/ui/reply_fab.dart';
+import 'package:flutter_motion_transitions/ui/settings_bottom_sheet.dart';
+import 'package:flutter_motion_transitions/utils/colors.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -173,6 +175,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ReplyColors.appBarBackground,
+        title: const Text('Motion Transition'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            color: ReplyColors.white50,
+            tooltip: 'Settings',
+            onPressed: () {
+              var radius = const Radius.circular(12);
+              showModalBottomSheet(
+                context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topRight: radius,
+                    topLeft: radius,
+                  ),
+                ),
+                builder: (context) => const SettingsBottomSheet(),
+              );
+            },
+          )
+        ],
+      ),
       extendBody: true,
       body: LayoutBuilder(
         builder: _buildStack,

@@ -42,4 +42,6 @@ class ReplyColors {
   static const Color darkCardBackground = Color(0xFF1E1E1E);
   static const Color darkChipBackground = Color(0xFF2A2A2A);
   static const Color lightChipBackground = Color(0xFFE5E5E5);
+
+  static const Color appBarBackground = Color(0xFF00574A);
 }
