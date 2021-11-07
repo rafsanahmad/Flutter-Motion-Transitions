@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_motion_transitions/pages/home_page.dart';
 import 'package:flutter_motion_transitions/pages/search_page.dart';
 import 'package:flutter_motion_transitions/router/router_provider.dart';
+import 'package:flutter_motion_transitions/transitions/shared_axis_transition.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
-import 'package:flutter_motion_transitions/utils/custom_transition_page.dart';
 import 'package:provider/provider.dart';
 
 class ReplyRouterDelegate extends RouterDelegate<ReplyRoutePath>
@@ -41,12 +41,12 @@ class ReplyRouterDelegate extends RouterDelegate<ReplyRoutePath>
               key: navigatorKey,
               onPopPage: _handlePopPage,
               pages: [
-                const CustomTransitionPage(
+                const SharedAxisTransitionPageWrapper(
                   transitionKey: ValueKey('Home'),
                   screen: HomePage(),
                 ),
                 if (routePath is ReplySearchPath)
-                  const CustomTransitionPage(
+                  const SharedAxisTransitionPageWrapper(
                     transitionKey: ValueKey('Search'),
                     screen: SearchPage(),
                   ),
