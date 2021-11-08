@@ -7,6 +7,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'extensions.dart';
+
 const assetsPackage = 'flutter_gallery_assets';
 const iconAssetLocation = 'reply/icons';
 const folderIconAssetLocation = '$iconAssetLocation/twotone_folder.png';
@@ -15,3 +17,5 @@ const double kFlingVelocity = 2.0;
 const kAnimationDuration = Duration(milliseconds: 300);
 const String homePageLocation = '/reply/home';
 const String searchPageLocation = 'reply/search';
+SlowMotionSpeedSetting currentSlowMotionSpeed =
+    SlowMotionSpeedSetting.slow;

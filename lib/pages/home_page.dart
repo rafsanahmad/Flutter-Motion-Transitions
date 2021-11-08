@@ -82,6 +82,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    Provider.of<EmailStore>(context, listen: false).slowMotionSpeed =
+        currentSlowMotionSpeed;
 
     _drawerController = AnimationController(
       duration: kAnimationDuration,

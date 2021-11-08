@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:flutter_motion_transitions/utils/extensions.dart';
 
 import 'model_email.dart';
@@ -178,8 +179,6 @@ class EmailStore with ChangeNotifier {
   bool _onCompose = false;
   bool _bottomDrawerVisible = false;
   ThemeMode _currentTheme = ThemeMode.system;
-  SlowMotionSpeedSetting _currentSlowMotionSpeed =
-      SlowMotionSpeedSetting.normal;
 
   Map<String, Set<Email>> get emails =>
       Map<String, Set<Email>>.unmodifiable(_categories);
@@ -223,7 +222,7 @@ class EmailStore with ChangeNotifier {
 
   ThemeMode get themeMode => _currentTheme;
 
-  SlowMotionSpeedSetting get slowMotionSpeed => _currentSlowMotionSpeed;
+  SlowMotionSpeedSetting get slowMotionSpeed => currentSlowMotionSpeed;
 
   bool isEmailStarred(Email email) {
     return _categories['Starred']!.contains(email);
@@ -250,7 +249,7 @@ class EmailStore with ChangeNotifier {
   }
 
   set slowMotionSpeed(SlowMotionSpeedSetting speed) {
-    _currentSlowMotionSpeed = speed;
+    currentSlowMotionSpeed = speed;
     timeDilation = slowMotionSpeed.value;
   }
 
