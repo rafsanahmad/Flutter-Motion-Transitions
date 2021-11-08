@@ -24,13 +24,21 @@ Used for UI elements that enter or exit within the bounds of the screen.
 ## App's Functionality
 
 1. Show a dummy list of messages in Home page.
+
 2. Implement an animated bottom app bar.
+
 ![](images/bottom_app_bar.png)
+
 3. Change app's theme dynamically from settings bottom sheet.
+
 ![](images/theme_options.png)
+
 4. Change app's animation speed from settings.
+
 ![](images/animation_speed.png)
+
 5. Implement bottom drawer menu.
+
 ![](images/bottom_drawer.png)
 
 
