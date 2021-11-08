@@ -40,7 +40,7 @@ class EmailStore with ChangeNotifier {
     const Email(
       sender: 'Rafsan Ahmad',
       time: '4 hrs ago',
-      subject: 'Brunch this weekend?',
+      subject: 'Meet this weekend?',
       message:
           'I\'ll be in your neighborhood doing errands and was hoping to catch you for a coffee this Saturday. If you don\'t have anything scheduled, it would be great to see you! It feels like its been forever.\n\n'
           'If we do get a chance to get together, remind me to tell you about Kim. She stopped over at the house to say hey to the kids and told me all about her trip to Mexico.\n\n'
@@ -53,7 +53,7 @@ class EmailStore with ChangeNotifier {
     const Email(
       sender: 'James gordon',
       time: '5 hrs ago',
-      subject: 'Bonjour from Dhaka',
+      subject: 'Paris Trip',
       message: 'Here are some great shots from my trip...',
       avatar: '$_avatarsLocation/avatar_3.jpg',
       recipients: 'Jeff',
@@ -62,10 +62,10 @@ class EmailStore with ChangeNotifier {
     const Email(
       sender: 'Jamshed ahmed',
       time: '9 hrs ago',
-      subject: 'India trip',
+      subject: 'Details planning about vacation',
       message:
           'Thought we might be able to go over some details about our upcoming vacation.\n\n'
-          'I\'ve been doing a bit of research and have come across a few paces in Northern Brazil that I think we should check out. '
+          'I\'ve been doing a bit of research and have come across a few paces in Northern France that I think we should check out. '
           'One, the north has some of the most predictable wind on the planet. '
           'I\'d love to get out on the ocean and kitesurf for a couple of days if we\'re going to be anywhere near or around Taiba. '
           'I hear it\'s beautiful there and if you\'re up for it, I\'d love to go. Other than that, I haven\'t spent too much time looking into places along our road trip route. '
