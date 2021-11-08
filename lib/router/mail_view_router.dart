@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_motion_transitions/model/email_store.dart';
 import 'package:flutter_motion_transitions/pages/inbox_page.dart';
-import 'package:flutter_motion_transitions/transitions/custom_transition_page.dart';
+import 'package:flutter_motion_transitions/transitions/fade_transtion.dart';
 import 'package:flutter_motion_transitions/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -32,12 +32,9 @@ class MailViewRouterDelegate extends RouterDelegate<void>
           key: navigatorKey,
           onPopPage: _handlePopPage,
           pages: [
-            // TODO: Add Fade through transition between mailbox pages (Motion)
-            CustomTransitionPage(
+            FadeThroughTransitionPageWrapper(
+              mailbox: InboxPage(destination: currentlySelectedInbox),
               transitionKey: ValueKey(currentlySelectedInbox),
-              screen: InboxPage(
-                destination: currentlySelectedInbox,
-              ),
             )
           ],
         );

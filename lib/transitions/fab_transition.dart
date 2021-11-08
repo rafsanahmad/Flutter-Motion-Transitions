@@ -11,8 +11,11 @@ import 'package:flutter_motion_transitions/model/email_store.dart';
 import 'package:flutter_motion_transitions/pages/compose_page.dart';
 import 'package:provider/provider.dart';
 
+import 'fade_through_transition_switch.dart';
+
 class FabTransitionWrapper extends StatelessWidget {
   static const double _mobileFabDimension = 56;
+  static final fabKey = UniqueKey();
 
   const FabTransitionWrapper({required this.onMailView});
 
@@ -23,15 +26,19 @@ class FabTransitionWrapper extends StatelessWidget {
     final theme = Theme.of(context);
     const circleFabBorder = CircleBorder();
 
-    final fabSwitcher = onMailView
-        ? const Icon(
-            Icons.reply_all,
-            color: Colors.black,
-          )
-        : const Icon(
-            Icons.create,
-            color: Colors.black,
-          );
+    final fabSwitcher = FadeThroughTransitionSwitcher(
+      fillColor: Colors.transparent,
+      child: onMailView
+          ? Icon(
+              Icons.reply_all,
+              key: fabKey,
+              color: Colors.black,
+            )
+          : const Icon(
+              Icons.create,
+              color: Colors.black,
+            ),
+    );
     final tooltip = onMailView ? 'Reply' : 'Compose';
 
     return OpenContainer(
